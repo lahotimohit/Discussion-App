@@ -18,7 +18,10 @@ defmodule DiscussionWeb.TopicController do
     %{"topic" => topic} = params
     changeset = Discussion.Topics.Topic.changeset(%Discussion.Topics.Topic{}, topic)
     case Repo.insert(changeset) do
-      {:ok, post} -> IO.inspect(post)
+      {:ok, post} ->
+        conn
+        |> put_flash(:info, "Topic Created Successfully")
+        |> redirect(to: ~p"/")
       {:error, changeset} -> render(conn, :new, changeset: changeset)
     end
   end
